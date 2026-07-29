@@ -104,6 +104,11 @@ class RollingTabularConfig:
     # distinctly from any estimator-level ``n_jobs`` (e.g. Random Forest's) so the two
     # parallelism axes stay independent.
     window_n_jobs: int = 1
+    # When True, train on log1p(target) and back-transform predictions with expm1.
+    # This compresses heavy-tailed runtime distributions so that very long jobs do not
+    # dominate squared-error-based training. Metrics are computed on the original
+    # (seconds) scale after back-transformation. Predictions are clipped to >= 0.
+    log_target: bool = False
 
 
 class RollingTabularModel:
@@ -362,8 +367,15 @@ class RollingTabularModel:
             )
 
         model = self._new_regressor(x_train.shape[0])
-        model.fit(x_train, y_train)
+        # When log_target is enabled, train on log1p(target) to compress the scale
+        # so very long jobs don't dominate squared-error optimization.
+        fit_targets = y_train
+        if self.config.log_target:
+            fit_targets = np.log1p(np.maximum(y_train, 0))
+        model.fit(x_train, fit_targets)
         pred = model.predict(x_test)
+        if self.config.log_target:
+            pred = np.maximum(np.expm1(pred), 0.0)
         y_pred = [float(v) for v in pred]
         y_true = [float(v) for v in y_test]
         metrics = self._compute_regression_metrics(y_true, y_pred, resolved_metric_defs)

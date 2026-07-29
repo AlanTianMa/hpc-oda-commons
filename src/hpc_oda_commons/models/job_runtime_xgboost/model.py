@@ -26,6 +26,15 @@ class JobRuntimeXGBoostConfig(RollingTabularConfig):
     learning_rate: float = 0.05
     subsample: float = 0.8
     colsample_bytree: float = 0.8
+    # XGBoost objective function. Options:
+    #   "reg:squarederror" — default, minimizes squared error
+    #   "reg:pseudohubererror" — reduces outlier influence without transforming the target;
+    #     the model still predicts in seconds directly but very long jobs don't dominate
+    #     training gradients. Controlled by huber_slope (larger = more like squarederror).
+    objective: str = "reg:squarederror"
+    # Slope parameter for pseudohubererror. The transition point between quadratic (small
+    # errors) and linear (large errors) behavior. Only used when objective is pseudohuber.
+    huber_slope: float = 1000.0
 
 
 class JobRuntimeXGBoostModel(RollingTabularModel):
@@ -62,13 +71,18 @@ class JobRuntimeXGBoostModel(RollingTabularModel):
 
         _ = n_train  # XGBoost does not size-adapt; the seam is shared with subclasses
 
-        return XGBRegressor(
-            n_estimators=self.config.n_estimators,
-            max_depth=self.config.max_depth,
-            learning_rate=self.config.learning_rate,
-            subsample=self.config.subsample,
-            colsample_bytree=self.config.colsample_bytree,
-            random_state=self.config.random_state,
-            n_jobs=1,
-            verbosity=0,
-        )
+        kwargs: dict[str, Any] = {
+            "n_estimators": self.config.n_estimators,
+            "max_depth": self.config.max_depth,
+            "learning_rate": self.config.learning_rate,
+            "subsample": self.config.subsample,
+            "colsample_bytree": self.config.colsample_bytree,
+            "random_state": self.config.random_state,
+            "objective": self.config.objective,
+            "n_jobs": 1,
+            "verbosity": 0,
+        }
+        if self.config.objective == "reg:pseudohubererror":
+            kwargs["huber_slope"] = self.config.huber_slope
+
+        return XGBRegressor(**kwargs)
