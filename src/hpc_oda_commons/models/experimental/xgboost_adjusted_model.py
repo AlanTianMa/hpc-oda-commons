@@ -1,5 +1,5 @@
 """
-Tuned XGBoost model with monotone constraints for job runtime prediction.
+Adjusted XGBoost model with monotone constraints for job runtime prediction.
 
 This variant applies domain knowledge through monotone constraints — telling
 XGBoost that certain relationships must be non-decreasing (e.g. more cores
@@ -22,8 +22,8 @@ from hpc_oda_commons.models.rolling_tabular.base import (
 
 
 @dataclass(frozen=True)
-class ExperimentalXGBoostTunedConfig(RollingTabularConfig):
-    """Rolling/preprocessing config plus tuned XGBoost hyperparameters."""
+class ExperimentalXGBoostAdjustedConfig(RollingTabularConfig):
+    """Rolling/preprocessing config plus adjusted XGBoost hyperparameters."""
 
     n_estimators: int = 200
     max_depth: int = 12
@@ -34,7 +34,7 @@ class ExperimentalXGBoostTunedConfig(RollingTabularConfig):
     gamma: float = 0.1  # minimum loss reduction for a split
 
 
-class ExperimentalXGBoostTunedModel(RollingTabularModel):
+class ExperimentalXGBoostAdjustedModel(RollingTabularModel):
     """
     XGBoost with domain-informed tuning for job runtime prediction.
 
@@ -45,11 +45,11 @@ class ExperimentalXGBoostTunedModel(RollingTabularModel):
     - gamma=0.1 requires minimum loss reduction for splits (regularization)
     """
 
-    _evaluate_desc = "rolling/xgboost-tuned"
-    _log_prefix = "xgboost_tuned"
+    _evaluate_desc = "rolling/xgboost-adjusted"
+    _log_prefix = "xgboost_adjusted"
 
-    def __init__(self, config: ExperimentalXGBoostTunedConfig | None = None) -> None:
-        super().__init__(config or ExperimentalXGBoostTunedConfig())
+    def __init__(self, config: ExperimentalXGBoostAdjustedConfig | None = None) -> None:
+        super().__init__(config or ExperimentalXGBoostAdjustedConfig())
 
     @staticmethod
     def _check_dependencies() -> None:
