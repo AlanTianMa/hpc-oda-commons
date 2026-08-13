@@ -110,7 +110,7 @@ def build_rolling_splits(
 
     splits: list[RollingSplit] = []
     previous_day: str | None = None
-    for split_time in tqdm(split_hours, total=len(split_hours)):
+    for split_time in tqdm(split_hours, total=len(split_hours), disable=not verbose):
         split_end = split_time + timedelta(hours=test_window_hours)
         training_window_start = split_time - timedelta(days=training_lookback_days)
         day_key = split_time.date().isoformat()

@@ -37,6 +37,10 @@ from hpc_oda_commons.models.job_runtime_xgboost.model import (
     JobRuntimeXGBoostConfig,
     JobRuntimeXGBoostModel,
 )
+from hpc_oda_commons.models.experimental.moe_xgboost_model import (
+    MoEXGBoostConfig,
+    MoEXGBoostModel,
+)
 from hpc_oda_commons.models.rolling_tabular.split import (
     build_rolling_splits,
     materialize_split_rows,
@@ -456,6 +460,35 @@ def run_rolling_tfidf_knn(
             test_window_hours=test_window_hours,
             training_lookback_days=training_lookback_days,
             window_n_jobs=int(split.get("window_n_jobs", 1)),
+        )
+    )
+    return _run_rolling_model_evaluate(
+        model,
+        rows,
+        split=split,
+        metric_defs=metric_defs,
+        verbose=verbose,
+        capture_artifacts=capture_artifacts,
+    )
+
+
+def run_rolling_moe_xgboost(
+    rows: list[dict[str, Any]],
+    *,
+    split: dict[str, Any],
+    metric_defs: list[dict[str, Any]],
+    verbose: bool = False,
+    capture_artifacts: bool = False,
+) -> tuple[dict[str, float], dict[str, Any], BenchmarkArtifacts]:
+    """Run a rolling benchmark with the User+Wallclock MoE XGBoost model."""
+    n_windows = int(split.get("n_windows", 1000))
+    test_window_hours = int(split.get("test_window_hours", 6))
+    training_lookback_days = int(split.get("training_lookback_days", 100))
+    model = MoEXGBoostModel(
+        config=MoEXGBoostConfig(
+            n_windows=n_windows,
+            test_window_hours=test_window_hours,
+            training_lookback_days=training_lookback_days,
         )
     )
     return _run_rolling_model_evaluate(

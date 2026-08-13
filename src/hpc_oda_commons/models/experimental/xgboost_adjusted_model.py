@@ -32,6 +32,7 @@ class ExperimentalXGBoostAdjustedConfig(RollingTabularConfig):
     colsample_bytree: float = 0.8
     min_child_weight: int = 5
     gamma: float = 0.1  # minimum loss reduction for a split
+    estimator_n_jobs: int = 1  # cores for XGBoost tree building (per window)
 
 
 class ExperimentalXGBoostAdjustedModel(RollingTabularModel):
@@ -78,6 +79,6 @@ class ExperimentalXGBoostAdjustedModel(RollingTabularModel):
             min_child_weight=self.config.min_child_weight,
             gamma=self.config.gamma,
             random_state=self.config.random_state,
-            n_jobs=1,
+            n_jobs=self.config.estimator_n_jobs,
             verbosity=0,
         )
