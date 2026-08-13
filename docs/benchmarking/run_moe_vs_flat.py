@@ -35,13 +35,14 @@ LOG_PATH = REPO_ROOT / "workspace" / "moe_vs_flat.log"
 
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-from hpc_oda_commons.models.job_runtime_xgboost.model import (
-    JobRuntimeXGBoostConfig,
-    JobRuntimeXGBoostModel,
-)
-from hpc_oda_commons.models.experimental.moe_xgboost_model import (
+from hpc_oda_commons.models.experimental.moe_xgboost_model import (  # noqa: E402
     MoEXGBoostConfig,
     MoEXGBoostModel,
+)
+
+from hpc_oda_commons.models.job_runtime_xgboost.model import (  # noqa: E402
+    JobRuntimeXGBoostConfig,
+    JobRuntimeXGBoostModel,
 )
 
 # ---------------------------------------------------------------------------
@@ -69,7 +70,11 @@ def setup_logging() -> logging.Logger:
 
 
 def save_checkpoint(results: dict, status: str = "running") -> None:
-    data = {"status": status, "timestamp": datetime.now(timezone.utc).isoformat(), "results": results}
+    data = {
+        "status": status,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "results": results,
+    }
     tmp = CHECKPOINT_PATH.with_suffix(".tmp")
     tmp.write_text(json.dumps(data, indent=2))
     tmp.rename(CHECKPOINT_PATH)
@@ -89,8 +94,14 @@ def main() -> None:
     log = setup_logging()
     log.info("=" * 70)
     log.info("MoE XGBoost vs Flat XGBoost — Production Settings")
-    log.info("SVD=%d, OHE=%d, windows=%d, lookback=%dd, n_jobs=%d",
-             MAX_SVD, MAX_OHE, N_WINDOWS, TRAINING_LOOKBACK_DAYS, ESTIMATOR_N_JOBS)
+    log.info(
+        "SVD=%d, OHE=%d, windows=%d, lookback=%dd, n_jobs=%d",
+        MAX_SVD,
+        MAX_OHE,
+        N_WINDOWS,
+        TRAINING_LOOKBACK_DAYS,
+        ESTIMATOR_N_JOBS,
+    )
     log.info("=" * 70)
 
     # --- Load data ---
@@ -106,8 +117,11 @@ def main() -> None:
     )
     df = table.filter(mask).to_pandas()
     rows = df.to_dict("records")
-    log.info("Loaded: %s rows, span: %s days",
-             f"{len(rows):,}", (df["submit_time"].max() - df["submit_time"].min()).days)
+    log.info(
+        "Loaded: %s rows, span: %s days",
+        f"{len(rows):,}",
+        (df["submit_time"].max() - df["submit_time"].min()).days,
+    )
 
     # --- Load checkpoint ---
     results = load_checkpoint() if args.resume else {}
@@ -141,14 +155,20 @@ def main() -> None:
             "time_min": round(flat_time, 1),
         }
 
-        log.info("Flat XGBoost: MAE=%s s, RMSE=%s s, scored=%s, time=%.0fmin",
-                 f"{flat_result['mae']:,.0f}", f"{flat_result['rmse']:,.0f}",
-                 f"{flat_result['summary']['rows_scored']:,}", flat_time)
+        log.info(
+            "Flat XGBoost: MAE=%s s, RMSE=%s s, scored=%s, time=%.0fmin",
+            f"{flat_result['mae']:,.0f}",
+            f"{flat_result['rmse']:,.0f}",
+            f"{flat_result['summary']['rows_scored']:,}",
+            flat_time,
+        )
 
         save_checkpoint(results)
         log.info("Checkpoint saved (flat complete)")
     else:
-        log.info("Flat XGBoost: already completed (MAE=%s s)", f"{results['flat_xgboost']['mae']:,.0f}")
+        log.info(
+            "Flat XGBoost: already completed (MAE=%s s)", f"{results['flat_xgboost']['mae']:,.0f}"
+        )
 
     # --- Run MoE XGBoost ---
     if "moe_xgboost" not in results:
@@ -183,14 +203,20 @@ def main() -> None:
             "bins": bin_details,
         }
 
-        log.info("MoE XGBoost: MAE=%s s, RMSE=%s s, scored=%s, time=%.0fmin",
-                 f"{moe_result['mae']:,.0f}", f"{moe_result['rmse']:,.0f}",
-                 f"{moe_result['summary']['rows_scored']:,}", moe_time)
+        log.info(
+            "MoE XGBoost: MAE=%s s, RMSE=%s s, scored=%s, time=%.0fmin",
+            f"{moe_result['mae']:,.0f}",
+            f"{moe_result['rmse']:,.0f}",
+            f"{moe_result['summary']['rows_scored']:,}",
+            moe_time,
+        )
 
         save_checkpoint(results)
         log.info("Checkpoint saved (MoE complete)")
     else:
-        log.info("MoE XGBoost: already completed (MAE=%s s)", f"{results['moe_xgboost']['mae']:,.0f}")
+        log.info(
+            "MoE XGBoost: already completed (MAE=%s s)", f"{results['moe_xgboost']['mae']:,.0f}"
+        )
 
     # --- Summary ---
     log.info("")
@@ -204,12 +230,22 @@ def main() -> None:
     log.info("")
     log.info("%-30s %10s %10s %10s %10s", "Model", "MAE", "RMSE", "Scored", "Time")
     log.info("-" * 75)
-    log.info("%-30s %10s %10s %10s %9.0fmin",
-             "Flat XGBoost", f"{flat['mae']:,.0f}s", f"{flat['rmse']:,.0f}s",
-             f"{flat['scored']:,}", flat["time_min"])
-    log.info("%-30s %10s %10s %10s %9.0fmin",
-             "MoE XGBoost (decay=0.05)", f"{moe['mae']:,.0f}s", f"{moe['rmse']:,.0f}s",
-             f"{moe['scored']:,}", moe["time_min"])
+    log.info(
+        "%-30s %10s %10s %10s %9.0fmin",
+        "Flat XGBoost",
+        f"{flat['mae']:,.0f}s",
+        f"{flat['rmse']:,.0f}s",
+        f"{flat['scored']:,}",
+        flat["time_min"],
+    )
+    log.info(
+        "%-30s %10s %10s %10s %9.0fmin",
+        "MoE XGBoost (decay=0.05)",
+        f"{moe['mae']:,.0f}s",
+        f"{moe['rmse']:,.0f}s",
+        f"{moe['scored']:,}",
+        moe["time_min"],
+    )
 
     mae_imp = (moe["mae"] - flat["mae"]) / flat["mae"] * 100
     rmse_imp = (moe["rmse"] - flat["rmse"]) / flat["rmse"] * 100

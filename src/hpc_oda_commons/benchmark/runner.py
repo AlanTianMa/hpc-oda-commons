@@ -25,6 +25,10 @@ from hpc_oda_commons.models.job_runtime_mlp.model import (
     JobRuntimeMlpConfig,
     JobRuntimeMlpModel,
 )
+from hpc_oda_commons.models.job_runtime_moe_xgboost.model import (
+    MoEXGBoostConfig,
+    MoEXGBoostModel,
+)
 from hpc_oda_commons.models.job_runtime_random_forest.model import (
     JobRuntimeRandomForestConfig,
     JobRuntimeRandomForestModel,
@@ -36,10 +40,6 @@ from hpc_oda_commons.models.job_runtime_tfidf_knn.model import (
 from hpc_oda_commons.models.job_runtime_xgboost.model import (
     JobRuntimeXGBoostConfig,
     JobRuntimeXGBoostModel,
-)
-from hpc_oda_commons.models.experimental.moe_xgboost_model import (
-    MoEXGBoostConfig,
-    MoEXGBoostModel,
 )
 from hpc_oda_commons.models.rolling_tabular.split import (
     build_rolling_splits,
@@ -484,11 +484,17 @@ def run_rolling_moe_xgboost(
     n_windows = int(split.get("n_windows", 1000))
     test_window_hours = int(split.get("test_window_hours", 6))
     training_lookback_days = int(split.get("training_lookback_days", 100))
+    time_decay_rate = float(split.get("time_decay_rate", 0.05))
+    power_user_percentile = float(split.get("power_user_percentile", 0.99))
+    estimator_n_jobs = int(split.get("estimator_n_jobs", 1))
     model = MoEXGBoostModel(
         config=MoEXGBoostConfig(
             n_windows=n_windows,
             test_window_hours=test_window_hours,
             training_lookback_days=training_lookback_days,
+            time_decay_rate=time_decay_rate,
+            power_user_percentile=power_user_percentile,
+            estimator_n_jobs=estimator_n_jobs,
         )
     )
     return _run_rolling_model_evaluate(

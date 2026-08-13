@@ -79,7 +79,7 @@
       "reference": {
         "kind": "python",
         "python": {
-          "module": "hpc_oda_commons.models.experimental.moe_xgboost_model",
+          "module": "hpc_oda_commons.models.job_runtime_moe_xgboost.model",
           "object": "MoEXGBoostModel"
         }
       }

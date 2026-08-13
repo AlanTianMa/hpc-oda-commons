@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import importlib.util
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
@@ -25,7 +25,6 @@ from hpc_oda_commons.models.rolling_tabular.base import (
     RollingTabularConfig,
     RollingTabularModel,
 )
-
 
 # ---------------------------------------------------------------------------
 # Wallclock bin definitions
@@ -173,15 +172,12 @@ class MoEXGBoostModel:
         ]
 
         bins, power_users = self._build_bins(rows)
-        valid_bins = {
-            k: v for k, v in bins.items() if len(v) >= self.config.min_bin_rows
-        }
+        valid_bins = {k: v for k, v in bins.items() if len(v) >= self.config.min_bin_rows}
         sorted_bins = sorted(valid_bins.items(), key=lambda x: -len(x[1]))
 
         if verbose:
             print(f"[moe] Power users: {len(power_users)}")
-            print(f"[moe] Valid bins: {len(valid_bins)} "
-                  f"(min_rows={self.config.min_bin_rows})")
+            print(f"[moe] Valid bins: {len(valid_bins)} (min_rows={self.config.min_bin_rows})")
             for name, bin_rows in sorted_bins:
                 print(f"[moe]   {name:<35} {len(bin_rows):>10,} rows")
 
@@ -194,8 +190,10 @@ class MoEXGBoostModel:
 
         for bin_idx, (bin_name, bin_rows) in enumerate(sorted_bins):
             if verbose:
-                print(f"[moe] [{bin_idx + 1}/{len(sorted_bins)}] "
-                      f"{bin_name} ({len(bin_rows):,} rows)...")
+                print(
+                    f"[moe] [{bin_idx + 1}/{len(sorted_bins)}] "
+                    f"{bin_name} ({len(bin_rows):,} rows)..."
+                )
 
             model = _BinXGBoostModel(self.config)
             try:
@@ -208,13 +206,15 @@ class MoEXGBoostModel:
                 scored = payload["summary"]["rows_scored"]
                 total_scored += scored
 
-                bin_summaries.append({
-                    "bin": bin_name,
-                    "rows": len(bin_rows),
-                    "scored": scored,
-                    "mae": payload["mae"],
-                    "rmse": payload["rmse"],
-                })
+                bin_summaries.append(
+                    {
+                        "bin": bin_name,
+                        "rows": len(bin_rows),
+                        "scored": scored,
+                        "mae": payload["mae"],
+                        "rmse": payload["rmse"],
+                    }
+                )
 
                 if capture_artifacts and "_y_true" in payload:
                     all_y_true.extend(payload["_y_true"])
@@ -226,50 +226,46 @@ class MoEXGBoostModel:
                     all_windows.append(w)
 
                 if verbose:
-                    print(f"[moe]   -> scored={scored:,}, "
-                          f"MAE={payload['mae']:,.0f}s, "
-                          f"RMSE={payload['rmse']:,.0f}s")
+                    print(
+                        f"[moe]   -> scored={scored:,}, "
+                        f"MAE={payload['mae']:,.0f}s, "
+                        f"RMSE={payload['rmse']:,.0f}s"
+                    )
 
             except Exception as e:
                 if verbose:
                     print(f"[moe]   -> FAILED: {e}")
-                bin_summaries.append({
-                    "bin": bin_name,
-                    "rows": len(bin_rows),
-                    "scored": 0,
-                    "mae": None,
-                    "rmse": None,
-                    "error": str(e),
-                })
+                bin_summaries.append(
+                    {
+                        "bin": bin_name,
+                        "rows": len(bin_rows),
+                        "scored": 0,
+                        "mae": None,
+                        "rmse": None,
+                        "error": str(e),
+                    }
+                )
 
         if total_scored == 0:
             raise ValueError("No bins produced scored predictions.")
 
         # Compute weighted global metrics
-        weighted_mae = sum(
-            b["mae"] * b["scored"]
-            for b in bin_summaries
-            if b["mae"] is not None
-        ) / total_scored
+        weighted_mae = (
+            sum(b["mae"] * b["scored"] for b in bin_summaries if b["mae"] is not None)
+            / total_scored
+        )
 
         weighted_rmse = (
-            sum(
-                (b["rmse"] ** 2) * b["scored"]
-                for b in bin_summaries
-                if b["rmse"] is not None
-            ) / total_scored
+            sum((b["rmse"] ** 2) * b["scored"] for b in bin_summaries if b["rmse"] is not None)
+            / total_scored
         ) ** 0.5
 
         global_metrics = {"mae": weighted_mae, "rmse": weighted_rmse}
 
         summary = {
             "windows_total": len(all_windows),
-            "windows_scored": sum(
-                1 for w in all_windows if w.get("status") == "ok"
-            ),
-            "windows_skipped": sum(
-                1 for w in all_windows if w.get("status") != "ok"
-            ),
+            "windows_scored": sum(1 for w in all_windows if w.get("status") == "ok"),
+            "windows_skipped": sum(1 for w in all_windows if w.get("status") != "ok"),
             "rows_scored": total_scored,
             "bins_total": len(sorted_bins),
             "bins_scored": sum(1 for b in bin_summaries if b["scored"] > 0),
@@ -281,9 +277,11 @@ class MoEXGBoostModel:
         }
 
         if verbose:
-            print(f"[moe] Overall: MAE={weighted_mae:,.0f}s, "
-                  f"RMSE={weighted_rmse:,.0f}s, "
-                  f"scored={total_scored:,}")
+            print(
+                f"[moe] Overall: MAE={weighted_mae:,.0f}s, "
+                f"RMSE={weighted_rmse:,.0f}s, "
+                f"scored={total_scored:,}"
+            )
 
         result: dict[str, Any] = {
             **global_metrics,

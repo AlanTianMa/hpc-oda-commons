@@ -42,7 +42,7 @@ LOG_PATH = REPO_ROOT / "workspace" / "decay_grid_search.log"
 
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-from hpc_oda_commons.models.experimental.xgboost_adjusted_model import (
+from hpc_oda_commons.models.experimental.xgboost_adjusted_model import (  # noqa: E402
     ExperimentalXGBoostAdjustedConfig,
     ExperimentalXGBoostAdjustedModel,
 )
@@ -163,9 +163,11 @@ def main() -> None:
     )
     df = table.filter(mask).to_pandas()
     rows_all = df.to_dict("records")
-    log.info("Loaded: %s rows, span: %s days",
-             f"{len(rows_all):,}",
-             (df["submit_time"].max() - df["submit_time"].min()).days)
+    log.info(
+        "Loaded: %s rows, span: %s days",
+        f"{len(rows_all):,}",
+        (df["submit_time"].max() - df["submit_time"].min()).days,
+    )
 
     # --- Build bins ---
     user_counts = Counter(r.get("user") for r in rows_all)
@@ -195,7 +197,9 @@ def main() -> None:
             break
 
     log.info("Power users: %d", len(power_users))
-    log.info("Bins: %d (covering %.1f%% of valid rows)", len(top_bins), cumulative / total_rows * 100)
+    log.info(
+        "Bins: %d (covering %.1f%% of valid rows)", len(top_bins), cumulative / total_rows * 100
+    )
     for name, rows in top_bins:
         log.info("  %-35s %10s rows", name, f"{len(rows):,}")
 
@@ -210,11 +214,20 @@ def main() -> None:
         log.info("Starting fresh (use --resume to continue from checkpoint)")
 
     # --- Config summary ---
-    log.info("Config: SVD=%d, OHE=%d, windows=%d, lookback=%dd, n_jobs=%d",
-             64, 512, N_WINDOWS, TRAINING_LOOKBACK_DAYS, ESTIMATOR_N_JOBS)
-    log.info("Total: %d rates × %d bins per rate = %d model evaluations",
-             len(DECAY_RATES), len(top_bins),
-             len(DECAY_RATES) * len(top_bins))
+    log.info(
+        "Config: SVD=%d, OHE=%d, windows=%d, lookback=%dd, n_jobs=%d",
+        64,
+        512,
+        N_WINDOWS,
+        TRAINING_LOOKBACK_DAYS,
+        ESTIMATOR_N_JOBS,
+    )
+    log.info(
+        "Total: %d rates × %d bins per rate = %d model evaluations",
+        len(DECAY_RATES),
+        len(top_bins),
+        len(DECAY_RATES) * len(top_bins),
+    )
 
     # --- Evaluate each rate ---
     total_start = time.time()
@@ -231,9 +244,13 @@ def main() -> None:
 
         log.info("")
         log.info("=" * 70)
-        log.info("[Rate %d/%d | %.0fmin elapsed | ~%.0fmin remaining]",
-                 len(completed_rates) + rate_idx + 1, len(DECAY_RATES),
-                 elapsed_total, remaining)
+        log.info(
+            "[Rate %d/%d | %.0fmin elapsed | ~%.0fmin remaining]",
+            len(completed_rates) + rate_idx + 1,
+            len(DECAY_RATES),
+            elapsed_total,
+            remaining,
+        )
         log.info("Testing decay_rate=%.2f across all %d bins", rate, len(top_bins))
         log.info("=" * 70)
 
@@ -256,15 +273,21 @@ def main() -> None:
 
                 total_scored += scored
                 weighted_mae_sum += mae * scored
-                weighted_se_sum += (rmse ** 2) * scored
+                weighted_se_sum += (rmse**2) * scored
                 bin_results[bin_name] = {"mae": mae, "rmse": rmse, "scored": scored}
 
-                log.info("  [%d/%d] %-30s scored=%6s MAE=%8s RMSE=%8s s (%.1fmin)",
-                         bin_idx + 1, len(top_bins), bin_name,
-                         f"{scored:,}", f"{mae:,.0f}", f"{rmse:,.0f}", bin_time)
+                log.info(
+                    "  [%d/%d] %-30s scored=%6s MAE=%8s RMSE=%8s s (%.1fmin)",
+                    bin_idx + 1,
+                    len(top_bins),
+                    bin_name,
+                    f"{scored:,}",
+                    f"{mae:,.0f}",
+                    f"{rmse:,.0f}",
+                    bin_time,
+                )
             except Exception as e:
-                log.error("  [%d/%d] %-30s FAILED: %s",
-                          bin_idx + 1, len(top_bins), bin_name, e)
+                log.error("  [%d/%d] %-30s FAILED: %s", bin_idx + 1, len(top_bins), bin_name, e)
                 bin_results[bin_name] = {"mae": None, "rmse": None, "scored": 0}
 
         # Compute weighted MAE and RMSE across all bins
@@ -282,14 +305,17 @@ def main() -> None:
         }
 
         log.info("")
-        log.info("  >> rate=%.2f: overall MAE=%s s, RMSE=%s s, scored=%s, time=%.0fmin",
-                 rate, f"{overall_mae:,.0f}" if overall_mae else "N/A",
-                 f"{overall_rmse:,.0f}" if overall_rmse else "N/A",
-                 f"{total_scored:,}", rate_elapsed)
+        log.info(
+            "  >> rate=%.2f: overall MAE=%s s, RMSE=%s s, scored=%s, time=%.0fmin",
+            rate,
+            f"{overall_mae:,.0f}" if overall_mae else "N/A",
+            f"{overall_rmse:,.0f}" if overall_rmse else "N/A",
+            f"{total_scored:,}",
+            rate_elapsed,
+        )
 
         save_checkpoint(results)
-        log.info("  Checkpoint saved (%d/%d rates complete)",
-                 len(results), len(DECAY_RATES))
+        log.info("  Checkpoint saved (%d/%d rates complete)", len(results), len(DECAY_RATES))
 
     # --- Final summary ---
     total_elapsed = (time.time() - total_start) / 60
@@ -311,8 +337,14 @@ def main() -> None:
             mae = r["overall_mae"]
             rmse = r.get("overall_rmse")
             rmse_str = f"{rmse:,.0f}s" if rmse else "N/A"
-            log.info("%-10.2f %12s %12s %12s %9.0fmin",
-                     rate, f"{mae:,.0f}s", rmse_str, f"{r['total_scored']:,}", r["time_min"])
+            log.info(
+                "%-10.2f %12s %12s %12s %9.0fmin",
+                rate,
+                f"{mae:,.0f}s",
+                rmse_str,
+                f"{r['total_scored']:,}",
+                r["time_min"],
+            )
             if rate == 0.0:
                 flat_mae = mae
             if mae < best_mae:
@@ -322,8 +354,12 @@ def main() -> None:
     if flat_mae and best_rate is not None:
         improvement = (best_mae - flat_mae) / flat_mae * 100
         log.info("")
-        log.info("Best rate: %.2f (MAE=%s s, %+.1f%% vs flat)",
-                 best_rate, f"{best_mae:,.0f}", improvement)
+        log.info(
+            "Best rate: %.2f (MAE=%s s, %+.1f%% vs flat)",
+            best_rate,
+            f"{best_mae:,.0f}",
+            improvement,
+        )
 
     save_checkpoint(results, status="complete")
     log.info("")
