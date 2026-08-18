@@ -1,0 +1,59 @@
+{
+  "adapter": {},
+  "artifact": {
+    "dataset_id": "dataset.job_runtime.atlas_mustang",
+    "paths": {
+      "lockfile": ".hpc_oda/cache/datasets/dataset.job_runtime.atlas_mustang/dataset.job_runtime.atlas_mustang.lock.json",
+      "manifest": "data/datasets/atlas_mustang/manifest.json",
+      "table": "data/datasets/atlas_mustang/data.parquet"
+    },
+    "slice": null,
+    "type": "dataset_prepare"
+  },
+  "created_at": "2026-07-21T19:15:31.933624Z",
+  "input_schema_version": "oda.job.v0.2.0",
+  "inputs": [
+    {
+      "path": "mustang_release_v1.0beta.csv.gz",
+      "sha256": "b1aed0adb731e92d72c20ff94317ca39188f6a8fb84c8fad1862ae181881eba8"
+    }
+  ],
+  "provenance": {
+    "code": {
+      "git_commit": "cb5efdc1644ea0b1f5669b87efe10a5aab303542",
+      "package_version": "0.1.0",
+      "source_hash": null
+    },
+    "environment": {
+      "packages": [],
+      "python": "3.13.5"
+    },
+    "inputs": [
+      {
+        "mtime_epoch": 1784661293.6494708,
+        "path": "data/datasets/atlas_mustang/data.parquet",
+        "sha256": "dab87115dc856183ba0b8e3030c7f1d5b7e70f7aa0456e78eb04780e31b4d3b3",
+        "size_bytes": 45951047
+      }
+    ],
+    "schema_versions": {
+      "input": "oda.job.v0.2.0",
+      "result": "oda.result.v0.1.0"
+    }
+  },
+  "schema_version": "oda.manifest.v0.1.0",
+  "transformations": [
+    {
+      "kind": "dataset_normalize",
+      "output_schema": "oda.job.v0.2.0",
+      "summary": {
+        "rows_final": 2019005,
+        "rows_kept": 2019005,
+        "rows_skipped": 94170,
+        "rows_skipped_state_filter": 0,
+        "rows_total": 2113175,
+        "state_filter_values": []
+      }
+    }
+  ]
+}

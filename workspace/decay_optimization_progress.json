@@ -1,0 +1,21 @@
+{
+  "status": "running",
+  "bins_completed": 2,
+  "results": {
+    "power c6b628f/<=2h": {
+      "optimal_rate": 0.14680706456216874,
+      "optimal_mae": 126.9118861143849,
+      "flat_mae": 173.78296258389915,
+      "evaluations": 9.0,
+      "time_min": 320.58905864953994,
+      "rows": 803417.0
+    },
+    "non-power/4-24h (in progress)": {
+      "eval": 3.0,
+      "last_rate": 0.03541019662496845,
+      "last_mae": 5858.198409616259,
+      "elapsed_min": 57.908222119013466,
+      "rows": 390763.0
+    }
+  }
+}

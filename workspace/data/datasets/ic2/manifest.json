@@ -1,0 +1,67 @@
+{
+  "adapter": {},
+  "artifact": {
+    "dataset_id": "dataset.job_runtime.ic2",
+    "paths": {
+      "lockfile": ".hpc_oda/cache/datasets/dataset.job_runtime.ic2/dataset.job_runtime.ic2.lock.json",
+      "manifest": "data/datasets/ic2/manifest.json",
+      "table": "data/datasets/ic2/data.parquet"
+    },
+    "slice": null,
+    "type": "dataset_prepare"
+  },
+  "created_at": "2026-07-21T20:37:31.623660Z",
+  "input_schema_version": "oda.job.v0.2.0",
+  "inputs": [
+    {
+      "path": "all_workloads_ic2.json",
+      "sha256": "2a6138a1029d5e2cb90ace6956a573ec266a49248d7adcb79790f0e6a2d57131"
+    },
+    {
+      "path": "all_workloads_polaris.json",
+      "sha256": "d5a6ce69e5d4e649ef28cb4c2c9b0341908729f593189b89632e910acce135d9"
+    },
+    {
+      "path": "all_workloads_aws.json",
+      "sha256": "1000774c957ac43836aa7ed203ac5c199eb30777575eaef851047114cf949061"
+    }
+  ],
+  "provenance": {
+    "code": {
+      "git_commit": "da95073ff74bc4f962a12a2d929bc83a57e51c16",
+      "package_version": "0.1.0",
+      "source_hash": null
+    },
+    "environment": {
+      "packages": [],
+      "python": "3.13.5"
+    },
+    "inputs": [
+      {
+        "mtime_epoch": 1784666251.5190105,
+        "path": "data/datasets/ic2/data.parquet",
+        "sha256": "4f95daceac1c49f8e7008ae325ff9e35d896830abc0fdeb24078a643411f4f2f",
+        "size_bytes": 122321
+      }
+    ],
+    "schema_versions": {
+      "input": "oda.job.v0.2.0",
+      "result": "oda.result.v0.1.0"
+    }
+  },
+  "schema_version": "oda.manifest.v0.1.0",
+  "transformations": [
+    {
+      "kind": "dataset_normalize",
+      "output_schema": "oda.job.v0.2.0",
+      "summary": {
+        "rows_final": 3599,
+        "rows_kept": 3599,
+        "rows_skipped": 0,
+        "rows_skipped_state_filter": 0,
+        "rows_total": 3599,
+        "state_filter_values": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "adapter": {},
+  "artifact": {
+    "dataset_id": "dataset.job_runtime.acme_kalos",
+    "paths": {
+      "lockfile": ".hpc_oda/cache/datasets/dataset.job_runtime.acme_kalos/dataset.job_runtime.acme_kalos.lock.json",
+      "manifest": "data/datasets/acme_kalos/manifest.json",
+      "table": "data/datasets/acme_kalos/data.parquet"
+    },
+    "slice": null,
+    "type": "dataset_prepare"
+  },
+  "created_at": "2026-07-21T19:10:58.238940Z",
+  "input_schema_version": "oda.job.v0.2.0",
+  "inputs": [
+    {
+      "path": "trace_kalos.csv",
+      "sha256": "7c5a7845da1d66448fa668342e4ecb622fd9a005118080660ec3ad2788d4c9bf"
+    }
+  ],
+  "provenance": {
+    "code": {
+      "git_commit": "cb5efdc1644ea0b1f5669b87efe10a5aab303542",
+      "package_version": "0.1.0",
+      "source_hash": null
+    },
+    "environment": {
+      "packages": [],
+      "python": "3.13.5"
+    },
+    "inputs": [
+      {
+        "mtime_epoch": 1784661056.8504105,
+        "path": "data/datasets/acme_kalos/data.parquet",
+        "sha256": "25c090ae18d0c4936e2df657d8f154d43459a29f863e53afeb45756c47236889",
+        "size_bytes": 2080545
+      }
+    ],
+    "schema_versions": {
+      "input": "oda.job.v0.2.0",
+      "result": "oda.result.v0.1.0"
+    }
+  },
+  "schema_version": "oda.manifest.v0.1.0",
+  "transformations": [
+    {
+      "kind": "dataset_normalize",
+      "output_schema": "oda.job.v0.2.0",
+      "summary": {
+        "rows_final": 62410,
+        "rows_kept": 62410,
+        "rows_skipped": 3,
+        "rows_skipped_state_filter": 0,
+        "rows_total": 62413,
+        "state_filter_values": []
+      }
+    }
+  ]
+}

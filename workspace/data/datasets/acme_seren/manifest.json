@@ -1,0 +1,59 @@
+{
+  "adapter": {},
+  "artifact": {
+    "dataset_id": "dataset.job_runtime.acme_seren",
+    "paths": {
+      "lockfile": ".hpc_oda/cache/datasets/dataset.job_runtime.acme_seren/dataset.job_runtime.acme_seren.lock.json",
+      "manifest": "data/datasets/acme_seren/manifest.json",
+      "table": "data/datasets/acme_seren/data.parquet"
+    },
+    "slice": null,
+    "type": "dataset_prepare"
+  },
+  "created_at": "2026-07-21T19:14:52.292425Z",
+  "input_schema_version": "oda.job.v0.2.0",
+  "inputs": [
+    {
+      "path": "trace_seren.csv",
+      "sha256": "747854c73ce8b3263b764aa9ff8d866d89903705d31fcd0e0520c33dd14af9a1"
+    }
+  ],
+  "provenance": {
+    "code": {
+      "git_commit": "cb5efdc1644ea0b1f5669b87efe10a5aab303542",
+      "package_version": "0.1.0",
+      "source_hash": null
+    },
+    "environment": {
+      "packages": [],
+      "python": "3.13.5"
+    },
+    "inputs": [
+      {
+        "mtime_epoch": 1784661274.468338,
+        "path": "data/datasets/acme_seren/data.parquet",
+        "sha256": "35e28b7178b6bf6e74bf7bee4b104852ca95251b0019c0c1cc45e4a74c7181e8",
+        "size_bytes": 16861648
+      }
+    ],
+    "schema_versions": {
+      "input": "oda.job.v0.2.0",
+      "result": "oda.result.v0.1.0"
+    }
+  },
+  "schema_version": "oda.manifest.v0.1.0",
+  "transformations": [
+    {
+      "kind": "dataset_normalize",
+      "output_schema": "oda.job.v0.2.0",
+      "summary": {
+        "rows_final": 818327,
+        "rows_kept": 818327,
+        "rows_skipped": 0,
+        "rows_skipped_state_filter": 0,
+        "rows_total": 818327,
+        "state_filter_values": []
+      }
+    }
+  ]
+}

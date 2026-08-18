@@ -1,0 +1,59 @@
+{
+  "adapter": {},
+  "artifact": {
+    "dataset_id": "dataset.job_runtime.adastra_mi250",
+    "paths": {
+      "lockfile": ".hpc_oda/cache/datasets/dataset.job_runtime.adastra_mi250/dataset.job_runtime.adastra_mi250.lock.json",
+      "manifest": "data/datasets/adastra_mi250/manifest.json",
+      "table": "data/datasets/adastra_mi250/data.parquet"
+    },
+    "slice": null,
+    "type": "dataset_prepare"
+  },
+  "created_at": "2026-07-20T19:14:16.984845Z",
+  "input_schema_version": "oda.job.v0.2.0",
+  "inputs": [
+    {
+      "path": "AdastaJobsMI250_15days.parquet",
+      "sha256": "7ed5fce02fa82a852262e2b794e2c6d3914f34930b4f1b5c619800b2f5d52bc0"
+    }
+  ],
+  "provenance": {
+    "code": {
+      "git_commit": "18380875d59a93b1e59f17084d1a530db376e2a6",
+      "package_version": "0.1.0",
+      "source_hash": null
+    },
+    "environment": {
+      "packages": [],
+      "python": "3.13.5"
+    },
+    "inputs": [
+      {
+        "mtime_epoch": 1784574856.6346335,
+        "path": "data/datasets/adastra_mi250/data.parquet",
+        "sha256": "e6768a530a737ed9cd371e54342970c6347800b9f0317e6cf888855c1af2e51b",
+        "size_bytes": 445214
+      }
+    ],
+    "schema_versions": {
+      "input": "oda.job.v0.2.0",
+      "result": "oda.result.v0.1.0"
+    }
+  },
+  "schema_version": "oda.manifest.v0.1.0",
+  "transformations": [
+    {
+      "kind": "dataset_normalize",
+      "output_schema": "oda.job.v0.2.0",
+      "summary": {
+        "rows_final": 15285,
+        "rows_kept": 15285,
+        "rows_skipped": 0,
+        "rows_skipped_state_filter": 0,
+        "rows_total": 15285,
+        "state_filter_values": []
+      }
+    }
+  ]
+}

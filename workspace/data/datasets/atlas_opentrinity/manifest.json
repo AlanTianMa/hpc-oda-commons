@@ -1,0 +1,59 @@
+{
+  "adapter": {},
+  "artifact": {
+    "dataset_id": "dataset.job_runtime.atlas_opentrinity",
+    "paths": {
+      "lockfile": ".hpc_oda/cache/datasets/dataset.job_runtime.atlas_opentrinity/dataset.job_runtime.atlas_opentrinity.lock.json",
+      "manifest": "data/datasets/atlas_opentrinity/manifest.json",
+      "table": "data/datasets/atlas_opentrinity/data.parquet"
+    },
+    "slice": null,
+    "type": "dataset_prepare"
+  },
+  "created_at": "2026-07-21T19:23:45.596676Z",
+  "input_schema_version": "oda.job.v0.2.0",
+  "inputs": [
+    {
+      "path": "trinity_formatted_release_v1.0beta.csv.gz",
+      "sha256": "df64a52bf6210b7db9205895f7fd59ff428893446be784230a17cb31f28fb105"
+    }
+  ],
+  "provenance": {
+    "code": {
+      "git_commit": "a94ada66260f5a80b65b44f2d1709b84e031133c",
+      "package_version": "0.1.0",
+      "source_hash": null
+    },
+    "environment": {
+      "packages": [],
+      "python": "3.13.5"
+    },
+    "inputs": [
+      {
+        "mtime_epoch": 1784661825.1591485,
+        "path": "data/datasets/atlas_opentrinity/data.parquet",
+        "sha256": "001495e2de2dff686e9ab5bc5ad28c9ac7ab96ab9d7eefe8c62fddf6885b7f01",
+        "size_bytes": 634044
+      }
+    ],
+    "schema_versions": {
+      "input": "oda.job.v0.2.0",
+      "result": "oda.result.v0.1.0"
+    }
+  },
+  "schema_version": "oda.manifest.v0.1.0",
+  "transformations": [
+    {
+      "kind": "dataset_normalize",
+      "output_schema": "oda.job.v0.2.0",
+      "summary": {
+        "rows_final": 21531,
+        "rows_kept": 21531,
+        "rows_skipped": 3706,
+        "rows_skipped_state_filter": 0,
+        "rows_total": 25237,
+        "state_filter_values": []
+      }
+    }
+  ]
+}

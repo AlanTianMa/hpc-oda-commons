@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-07-21T19:23:45.537990Z",
+  "missingness": {
+    "account": 0.0,
+    "end_time": 0.0,
+    "job_id": 0.0,
+    "job_state": 0.0,
+    "num_nodes_req": 0.0,
+    "num_tasks_req": 0.0,
+    "requested_seconds": 0.0,
+    "runtime_seconds": 0.0,
+    "start_time": 0.0,
+    "submit_time": 0.0,
+    "user": 0.0
+  },
+  "negative_runtime": 0,
+  "row_count": 21531,
+  "ruleset_version": "v0.1",
+  "schema_version": "oda.job.v0.2.0",
+  "timestamp_issues": 0,
+  "validation": {
+    "schema_error_count": 0,
+    "schema_errors": [],
+    "schema_rows_checked": 21531,
+    "schema_sample_rows_requested": 10,
+    "semantic_error_count": 0,
+    "semantic_errors": [],
+    "strict": false
+  }
+}

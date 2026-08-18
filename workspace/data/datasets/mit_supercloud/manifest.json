@@ -1,0 +1,59 @@
+{
+  "adapter": {},
+  "artifact": {
+    "dataset_id": "dataset.job_runtime.mit_supercloud",
+    "paths": {
+      "lockfile": ".hpc_oda/cache/datasets/dataset.job_runtime.mit_supercloud/dataset.job_runtime.mit_supercloud.lock.json",
+      "manifest": "data/datasets/mit_supercloud/manifest.json",
+      "table": "data/datasets/mit_supercloud/data.parquet"
+    },
+    "slice": null,
+    "type": "dataset_prepare"
+  },
+  "created_at": "2026-07-21T19:22:39.923339Z",
+  "input_schema_version": "oda.job.v0.2.0",
+  "inputs": [
+    {
+      "path": "slurm-log.csv",
+      "sha256": "27259e5b8e6daecd80b7853126af40ba759bc25edc9053fc174ef7a4f186aa01"
+    }
+  ],
+  "provenance": {
+    "code": {
+      "git_commit": "a94ada66260f5a80b65b44f2d1709b84e031133c",
+      "package_version": "0.1.0",
+      "source_hash": null
+    },
+    "environment": {
+      "packages": [],
+      "python": "3.13.5"
+    },
+    "inputs": [
+      {
+        "mtime_epoch": 1784661750.8757243,
+        "path": "data/datasets/mit_supercloud/data.parquet",
+        "sha256": "98c2267b34882a9cfd73de4865b131d6e61aa0d550e6edbf6bcbe02a5d0277a9",
+        "size_bytes": 10929470
+      }
+    ],
+    "schema_versions": {
+      "input": "oda.job.v0.2.0",
+      "result": "oda.result.v0.1.0"
+    }
+  },
+  "schema_version": "oda.manifest.v0.1.0",
+  "transformations": [
+    {
+      "kind": "dataset_normalize",
+      "output_schema": "oda.job.v0.2.0",
+      "summary": {
+        "rows_final": 395914,
+        "rows_kept": 395914,
+        "rows_skipped": 0,
+        "rows_skipped_state_filter": 0,
+        "rows_total": 395914,
+        "state_filter_values": []
+      }
+    }
+  ]
+}

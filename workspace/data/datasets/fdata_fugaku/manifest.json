@@ -1,0 +1,67 @@
+{
+  "adapter": {},
+  "artifact": {
+    "dataset_id": "dataset.job_runtime.fdata_fugaku",
+    "paths": {
+      "lockfile": ".hpc_oda/cache/datasets/dataset.job_runtime.fdata_fugaku/dataset.job_runtime.fdata_fugaku.lock.json",
+      "manifest": "data/datasets/fdata_fugaku/manifest.json",
+      "table": "data/datasets/fdata_fugaku/data.parquet"
+    },
+    "slice": null,
+    "type": "dataset_prepare"
+  },
+  "created_at": "2026-07-22T18:05:25.235840Z",
+  "input_schema_version": "oda.job.v0.2.0",
+  "inputs": [
+    {
+      "path": "23_07.parquet",
+      "sha256": "eaed73c23bae77d51901bd946d7c7f1c80b17403305dab72f8e9435acb87a31f"
+    },
+    {
+      "path": "23_08.parquet",
+      "sha256": "08c3d68d165e5e5f635a9b077acaf416d066006f7fee618c9dd2df46af32648d"
+    },
+    {
+      "path": "23_09.parquet",
+      "sha256": "a5fb88d30448ccec00224c43abab62723e1f2bc31db93fc3985650fcc9dbf5b9"
+    }
+  ],
+  "provenance": {
+    "code": {
+      "git_commit": "f8c2f02463990709efdb00c346f25bd46ae25820",
+      "package_version": "0.1.0",
+      "source_hash": null
+    },
+    "environment": {
+      "packages": [],
+      "python": "3.13.5"
+    },
+    "inputs": [
+      {
+        "mtime_epoch": 1784743471.5753663,
+        "path": "data/datasets/fdata_fugaku/data.parquet",
+        "sha256": "e64f38d38e57e27d4ebfe18970a3ac9dba36173a0967ae9e949cecc7f8c5b9d9",
+        "size_bytes": 61043920
+      }
+    ],
+    "schema_versions": {
+      "input": "oda.job.v0.2.0",
+      "result": "oda.result.v0.1.0"
+    }
+  },
+  "schema_version": "oda.manifest.v0.1.0",
+  "transformations": [
+    {
+      "kind": "dataset_normalize",
+      "output_schema": "oda.job.v0.2.0",
+      "summary": {
+        "rows_final": 2576793,
+        "rows_kept": 2576793,
+        "rows_skipped": 0,
+        "rows_skipped_state_filter": 0,
+        "rows_total": 2576793,
+        "state_filter_values": []
+      }
+    }
+  ]
+}

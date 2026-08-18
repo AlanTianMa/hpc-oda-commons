@@ -1,0 +1,97 @@
+{
+  "generated_at": "2026-07-21T19:23:18.829562Z",
+  "missingness": {
+    "account": 0.0,
+    "end_time": 0.0,
+    "exit_code": 0.0,
+    "job_id": 0.0,
+    "job_type": 0.0,
+    "num_cores_alloc": 0.0,
+    "num_gpus_req": 0.0,
+    "num_nodes_alloc": 0.0,
+    "queue": 4.087900767571501e-06,
+    "requested_seconds": 0.0,
+    "runtime_seconds": 0.0,
+    "start_time": 0.0,
+    "submit_time": 0.0,
+    "user": 0.0
+  },
+  "negative_runtime": 0,
+  "row_count": 1467746,
+  "ruleset_version": "v0.1",
+  "schema_version": "oda.job.v0.2.0",
+  "timestamp_issues": 14,
+  "validation": {
+    "schema_error_count": 0,
+    "schema_errors": [],
+    "schema_rows_checked": 1467746,
+    "schema_sample_rows_requested": 10,
+    "semantic_error_count": 14,
+    "semantic_errors": [
+      {
+        "count": 14,
+        "examples": [
+          {
+            "row": {
+              "account": "fa1af2db38ec49389d1d448fe97ae914",
+              "end_time": "2019-11-03T01:01:28.990985Z",
+              "exit_code": 0,
+              "job_id": 643218,
+              "job_type": "batch",
+              "num_cores_alloc": 0,
+              "num_gpus_req": 0,
+              "num_nodes_alloc": 1,
+              "queue": "pbatch3",
+              "requested_seconds": 1800.0,
+              "runtime_seconds": 0.0,
+              "start_time": "2019-11-03T01:31:17.334231Z",
+              "submit_time": "2019-11-03T01:31:15Z",
+              "user": "facfc586349d657afe94dc7f59963fec"
+            },
+            "row_index": 504922
+          },
+          {
+            "row": {
+              "account": "4ff4e6db1f60cf518071153d38621cbd",
+              "end_time": "2020-11-01T01:03:56.144781Z",
+              "exit_code": 0,
+              "job_id": 1629847,
+              "job_type": "batch",
+              "num_cores_alloc": 0,
+              "num_gpus_req": 0,
+              "num_nodes_alloc": 4,
+              "queue": "pbatch",
+              "requested_seconds": 3600.0,
+              "runtime_seconds": 0.0,
+              "start_time": "2020-11-01T01:07:31.702150Z",
+              "submit_time": "2020-10-31T08:46:56Z",
+              "user": "5d0ef1bf4f320565e8d1e7b7aa8e6c1d"
+            },
+            "row_index": 1409203
+          },
+          {
+            "row": {
+              "account": "4ff4e6db1f60cf518071153d38621cbd",
+              "end_time": "2020-11-01T01:17:03.214834Z",
+              "exit_code": 0,
+              "job_id": 1629848,
+              "job_type": "batch",
+              "num_cores_alloc": 0,
+              "num_gpus_req": 0,
+              "num_nodes_alloc": 4,
+              "queue": "pbatch",
+              "requested_seconds": 3600.0,
+              "runtime_seconds": 0.0,
+              "start_time": "2020-11-01T01:21:19.219649Z",
+              "submit_time": "2020-10-31T08:46:56Z",
+              "user": "5d0ef1bf4f320565e8d1e7b7aa8e6c1d"
+            },
+            "row_index": 1409218
+          }
+        ],
+        "issue": "start_time is after end_time"
+      }
+    ],
+    "strict": false
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "adapter": {},
+  "artifact": {
+    "dataset_id": "dataset.job_runtime.lassen",
+    "paths": {
+      "lockfile": ".hpc_oda/cache/datasets/dataset.job_runtime.lassen/dataset.job_runtime.lassen.lock.json",
+      "manifest": "data/datasets/lassen/manifest.json",
+      "table": "data/datasets/lassen/data.parquet"
+    },
+    "slice": null,
+    "type": "dataset_prepare"
+  },
+  "created_at": "2026-07-21T19:23:21.508297Z",
+  "input_schema_version": "oda.job.v0.2.0",
+  "inputs": [
+    {
+      "path": "lassen_jobs.csv",
+      "sha256": "8d2429f034f626ee052e50d11f77ff755191a0b480240842fb188c8a3bb7c190"
+    }
+  ],
+  "provenance": {
+    "code": {
+      "git_commit": "a94ada66260f5a80b65b44f2d1709b84e031133c",
+      "package_version": "0.1.0",
+      "source_hash": null
+    },
+    "environment": {
+      "packages": [],
+      "python": "3.13.5"
+    },
+    "inputs": [
+      {
+        "mtime_epoch": 1784661772.000247,
+        "path": "data/datasets/lassen/data.parquet",
+        "sha256": "d1dd996e8c1a5fd40a39c6150b5cde60521456f97d7e823926a40c65ecfb0e1f",
+        "size_bytes": 48491270
+      }
+    ],
+    "schema_versions": {
+      "input": "oda.job.v0.2.0",
+      "result": "oda.result.v0.1.0"
+    }
+  },
+  "schema_version": "oda.manifest.v0.1.0",
+  "transformations": [
+    {
+      "kind": "dataset_normalize",
+      "output_schema": "oda.job.v0.2.0",
+      "summary": {
+        "rows_final": 1467746,
+        "rows_kept": 1467746,
+        "rows_skipped": 0,
+        "rows_skipped_state_filter": 0,
+        "rows_total": 1467746,
+        "state_filter_values": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-07-21T20:37:31.588665Z",
+  "missingness": {
+    "allocated_cpus": 0.0,
+    "end_time": 0.0,
+    "job_id": 0.0,
+    "name": 0.0,
+    "num_gpus_req": 0.0,
+    "platform": 0.0,
+    "runtime_seconds": 0.0,
+    "start_time": 0.0,
+    "submit_time": 0.0
+  },
+  "negative_runtime": 0,
+  "row_count": 3599,
+  "ruleset_version": "v0.1",
+  "schema_version": "oda.job.v0.2.0",
+  "timestamp_issues": 0,
+  "validation": {
+    "schema_error_count": 0,
+    "schema_errors": [],
+    "schema_rows_checked": 3599,
+    "schema_sample_rows_requested": 10,
+    "semantic_error_count": 0,
+    "semantic_errors": [],
+    "strict": false
+  }
+}
